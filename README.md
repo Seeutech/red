@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Terabox Downloader Bot</h1>
 
-<p align="center"><img src="https://socialify.git.ci/r0ld3x/terabox-downloader-bot/image?font=Source%20Code%20Pro&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Brick%20Wall&amp;theme=Auto" alt="project-image"></p>
+<p align="center"><img src="https://socialify.git.ci/devilxsam/TBY/image?font=Source%20Code%20Pro&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Brick%20Wall&amp;theme=Auto" alt="project-image"></p>
 
 <p id="description">A telegram bot for downloading terabox videos fastly</p>
 
