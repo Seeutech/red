@@ -85,6 +85,24 @@ async def start(m: UpdateNewMessage):
         )
     )
 
+@bot.on(events.NewMessage(pattern="/plans", incoming=True, outgoing=False))
+async def show_plans(m: UpdateNewMessage):
+    plans_text = "𝐏𝐫𝐞𝐦𝐢𝐮𝐦 𝐏𝐥𝐚𝐧𝐬:"
+    
+    for plan_name, plan_details in PREMIUM_PLANS.items():
+        amount = plan_details["amount"]
+        validity_days = plan_details["validity_days"]
+        plans_text += f"\n{plan_name} - 𝐀𝐦𝐨𝐮𝐧𝐭: ₹{amount} - 𝐕𝐚𝐥𝐢𝐝𝐢𝐭𝐲: {validity_days} 𝐝𝐚𝐲𝐬"
+
+     # Create an inline keyboard with a pay button
+    keyboard = [
+        [telethon.tl.types.KeyboardButtonUrl(
+            text="Pay",
+            url=f"https://t.me/{YOUR_ADMIN_USERNAME}",
+        )],
+    ]
+
+    await m.reply(plans_text, buttons=keyboard, parse_mode="markdown")
 
 @bot.on(
     events.NewMessage(
