@@ -48,7 +48,7 @@ async def start(m: UpdateNewMessage):
 𝟐. 𝐰𝐢𝐭𝐡𝐨𝐮𝐭 𝟐 𝐡𝐨𝐮𝐫𝐬 𝐨𝐟 𝐰𝐚𝐢𝐭 𝐭𝐢𝐦𝐞
 𝟑. 𝐍𝐨 𝐋𝐢𝐦𝐢𝐭𝐬
 
-𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐭𝐨  𝐀𝐝𝐦𝐢𝐧 :@xTMAdminBot """
+ 𝐂𝐡𝐞𝐜𝐤 𝐏𝐥𝐚𝐧'𝐬 : /plans"""
     check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
     if not check_if:
         return await m.reply("Please join @TechyMaskBots then send me the link again.")
@@ -97,7 +97,7 @@ async def show_plans(m: UpdateNewMessage):
      # Create an inline keyboard with a pay button
     keyboard = [
         [telethon.tl.types.KeyboardButtonUrl(
-            text="Pay",
+            text="𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐭𝐨 𝐀𝐝𝐦𝐢𝐧",
             url=f"https://t.me/{YOUR_ADMIN_USERNAME}",
         )],
     ]
