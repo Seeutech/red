@@ -83,7 +83,7 @@ async def start(m: UpdateNewMessage):
 # Define the /plans command handler
 @bot.on(events.NewMessage(pattern="/plans", incoming=True, outgoing=False))
 async def show_plans(m: UpdateNewMessage):
-    plans_text = "𝐏𝐫𝐞𝐦𝐢𝐮𝐦 𝐏𝐥𝐚𝐧𝐬:"
+    plans_text = "𝐏𝐫𝐞𝐦𝐢𝐮𝐦 𝐏𝐥𝐚𝐧𝐬 👇🏻:"
     
     for plan_name, plan_details in PREMIUM_PLANS.items():
         amount = plan_details["amount"]
