@@ -9,6 +9,7 @@ import telethon.tl.types
 from telethon import TelegramClient, events
 from telethon.tl.functions.messages import ForwardMessagesRequest
 from telethon.types import Message, UpdateNewMessage
+from telethon.tl import functions
 
 from cansend import CanSend
 from config import *
@@ -38,29 +39,32 @@ async def start(m: UpdateNewMessage):
     reply_text = f"""
  𝐇𝐞𝐥𝐥𝐨! 𝐈 𝐚𝐦 𝐓𝐞𝐫𝐚𝐛𝐨𝐱 𝐕𝐢𝐝𝐞𝐨 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭.
 𝐒𝐞𝐧𝐝 𝐦𝐞 𝐭𝐞𝐫𝐚𝐛𝐨𝐱 𝐯𝐢𝐝𝐞𝐨 𝐥𝐢𝐧𝐤 & 𝐈 𝐰𝐢𝐥𝐥 𝐬𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨."""
-    check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
-    if not check_if:
-        return await m.reply("Please join @TechyMaskBots then send me the link again.")
-    check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
-    if not check_if:
-        return await m.reply(
-            "Please join @TechyMaskBots then send me the link again."
-        )
-    await m.reply(reply_text, link_preview=False, parse_mode="markdown")
 
+    # Check if the user is a member of both channels
+    channel1 = "@gfsgfdsg112"
+    channel2 = "@testxbott"  # Replace with the actual username of your second channel
+
+    if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
+        return await m.reply("Please join {channel1} and {channel2} before using the bot.")
+
+    await m.reply(reply_text, link_preview=False, parse_mode="markdown")
 
 @bot.on(events.NewMessage(pattern="/start (.*)", incoming=True, outgoing=False))
 async def start(m: UpdateNewMessage):
     text = m.pattern_match.group(1)
     fileid = db.get(str(text))
-    check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
-    if not check_if:
-        return await m.reply("Please join @TechyMaskBots then send me the link again.")
-    check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
-    if not check_if:
-        return await m.reply(
-            "Please join @TechyMaskBots then send me the link again."
-        )
+
+    # Define the channels
+    channel1 = "@gfsgfdsg112"
+    channel2 = "@testxbott"
+
+    # Check if the user is a member of both channels
+    check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
+    check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
+
+    if not check_channel1 or not check_channel2:
+        return await m.reply("Please join {channel1} and {channel2} before using the bot.")
+
     await bot(
         ForwardMessagesRequest(
             from_peer=PRIVATE_CHAT_ID,
@@ -73,6 +77,7 @@ async def start(m: UpdateNewMessage):
             with_my_score=True,
         )
     )
+
 
 
 @bot.on(
@@ -103,30 +108,39 @@ async def get_message(m: Message):
 
 
 async def handle_message(m: Message):
+    # Define the channels
+    channel1 = "@gfsgfdsg112"
+    channel2 = "@testxbott" # Replace with your second channel
+
+    # Check if the user is a member of both channels
+    check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
+    check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
+
+    if not check_channel1 or not check_channel2:
+        return await m.reply(f"Please join {channel1} and {channel2} before using the bot.")
 
     url = get_urls_from_string(m.text)
     if not url:
-        return await m.reply("Please enter a valid url.")
-    check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
+        return await m.reply("Please enter a valid URL.")
+
+    check_if = await is_user_on_chat(bot, channel1, m.peer_id)
     if not check_if:
-        return await m.reply("Please join @TechyMaskBots then send me the link again.")
-    check_if = await is_user_on_chat(bot, "@TechyMaskBots", m.peer_id)
-    if not check_if:
-        return await m.reply(
-            "Please join @TechyMaskBots then send me the link again."
-        )
+        return await m.reply(f"Please join {channel1} then send me the link again.")
+
     is_spam = db.get(m.sender_id)
     if is_spam and m.sender_id not in [1317173146]:
-        return await m.reply("You are spamming. Please wait a 1 minute and try again.")
-    hm = await m.reply("Sending you the media wait...")
+        return await m.reply("You are spamming. Please wait 1 minute and try again.")
+
+    hm = await m.reply("Sending you the media, please wait...")
+
     count = db.get(f"check_{m.sender_id}")
     if count and int(count) > 5:
-        return await hm.edit(
-            "You are limited now. Please come back after 2 hours or use another account."
-        )
+        return await hm.edit("You are limited now. Please come back after 2 hours or use another account.")
+
     shorturl = extract_code_from_url(url)
     if not shorturl:
         return await hm.edit("Seems like your link is invalid.")
+
     fileid = db.get(shorturl)
     if fileid:
         try:
@@ -146,6 +160,7 @@ async def handle_message(m: Message):
                 with_my_score=True,
             )
         )
+
         db.set(m.sender_id, time.monotonic(), ex=60)
         db.set(
             f"check_{m.sender_id}",
