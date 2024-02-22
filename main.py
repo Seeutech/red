@@ -3,14 +3,14 @@ import os
 import time
 from uuid import uuid4
 
-import redis
 import telethon
-import telethon.tl.types
+import redis
 from telethon import TelegramClient, events
-from telethon.tl.functions.messages import ForwardMessagesRequest
-from telethon.types import Message, UpdateNewMessage
 from telethon.tl import functions
+from telethon.types import Message, UpdateNewMessage
+from telethon.tl.functions.messages import ForwardMessagesRequest
 
+from plans import plans_command  # Import the new feature file
 from cansend import CanSend
 from config import *
 from terabox import get_data
@@ -26,6 +26,7 @@ from tools import (
 
 bot = TelegramClient("tele", API_ID, API_HASH)
 
+
 db = redis.Redis(
     host=HOST,
     port=PORT,
@@ -38,14 +39,16 @@ db = redis.Redis(
 async def start(m: UpdateNewMessage):
     reply_text = f"""
  𝐇𝐞𝐥𝐥𝐨! 𝐈 𝐚𝐦 𝐓𝐞𝐫𝐚𝐛𝐨𝐱 𝐕𝐢𝐝𝐞𝐨 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭.
-𝐒𝐞𝐧𝐝 𝐦𝐞 𝐭𝐞𝐫𝐚𝐛𝐨𝐱 𝐯𝐢𝐝𝐞𝐨 𝐥𝐢𝐧𝐤 & 𝐈 𝐰𝐢𝐥𝐥 𝐬𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨."""
+𝐒𝐞𝐧𝐝 𝐦𝐞 𝐭𝐞𝐫𝐚𝐛𝐨𝐱 𝐯𝐢𝐝𝐞𝐨 𝐥𝐢𝐧𝐤 & 𝐈 𝐰𝐢𝐥𝐥 𝐬𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨.
+
+𝐏𝐋𝐀𝐍'𝐒 : /plans"""
 
     # Check if the user is a member of both channels
-    channel1 = "@gfsgfdsg112"
-    channel2 = "@testxbott"  # Replace with the actual username of your second channel
+    channel1 = "@TechyMaskBots"
+    channel2 = "@Amanbotz"  # Replace with the actual username of your second channel
 
     if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
-        return await m.reply("Please join {channel1} and {channel2} before using the bot.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TechyMaskBot 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     await m.reply(reply_text, link_preview=False, parse_mode="markdown")
 
@@ -55,15 +58,15 @@ async def start(m: UpdateNewMessage):
     fileid = db.get(str(text))
 
     # Define the channels
-    channel1 = "@gfsgfdsg112"
-    channel2 = "@testxbott"
+    channel1 = "@TechyMaskBots"
+    channel2 = "@Amanbotz"
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
     check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
 
     if not check_channel1 or not check_channel2:
-        return await m.reply("Please join {channel1} and {channel2} before using the bot.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TechyMaskBot 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     await bot(
         ForwardMessagesRequest(
@@ -78,7 +81,33 @@ async def start(m: UpdateNewMessage):
         )
     )
 
+# Add the new feature to the bot
+@bot.on(events.NewMessage(pattern="/plans$", incoming=True, outgoing=False))
+async def plans_command_wrapper(event):
+    await plans_command(event)
 
+@bot.on(events.NewMessage(pattern="/adduser (\d+)$", incoming=True, outgoing=False, from_users=ADMINS))
+async def add_user_command(m: UpdateNewMessage):
+    user_id_to_add = int(m.pattern_match.group(1))
+    
+    if user_id_to_add not in ADMINS:
+        ADMINS.append(user_id_to_add)
+        update_config_file()
+        await m.reply(f"User ID {user_id_to_add} added to ADMINS list.")
+    else:
+        await m.reply(f"User ID {user_id_to_add} is already in the ADMINS list.")
+
+def update_config_file():
+    with open('config.py', 'r') as config_file:
+        lines = config_file.readlines()
+    
+    for i, line in enumerate(lines):
+        if line.startswith("ADMINS = "):
+            lines[i] = f"ADMINS = {ADMINS}\n"
+            break
+    
+    with open('config.py', 'w') as config_file:
+        config_file.writelines(lines)
 
 @bot.on(
     events.NewMessage(
@@ -109,15 +138,15 @@ async def get_message(m: Message):
 
 async def handle_message(m: Message):
     # Define the channels
-    channel1 = "@gfsgfdsg112"
-    channel2 = "@testxbott" # Replace with your second channel
+    channel1 = "@TechyMaskBots"
+    channel2 = "@Amanbotz" # Replace with your second channel
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
     check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
 
     if not check_channel1 or not check_channel2:
-        return await m.reply(f"Please join {channel1} and {channel2} before using the bot.")
+        return await m.reply(f"Please join {channel1} and {channel2} then send link.")
 
     url = get_urls_from_string(m.text)
     if not url:
@@ -128,7 +157,7 @@ async def handle_message(m: Message):
         return await m.reply(f"Please join {channel1} then send me the link again.")
 
     is_spam = db.get(m.sender_id)
-    if is_spam and m.sender_id not in [1317173146]:
+    if is_spam and m.sender_id not in ADMINS:
         return await m.reply("You are spamming. Please wait 1 minute and try again.")
 
     hm = await m.reply("Sending you the media, please wait...")
@@ -165,7 +194,7 @@ async def handle_message(m: Message):
         db.set(
             f"check_{m.sender_id}",
             int(count) + 1 if count else 1,
-            ex=7200,
+            ex=1800,
         )
 
         return
@@ -179,13 +208,14 @@ async def handle_message(m: Message):
         and not data["file_name"].endswith(".mkv")
         and not data["file_name"].endswith(".Mkv")
         and not data["file_name"].endswith(".webm")
+        and not data["file_name"].endswith(".MP4")
     ):
         return await hm.edit(
             f"Sorry! File is not supported for now. I can download only .mp4, .mkv and .webm files."
         )
-    if int(data["sizebytes"]) > 524288000 and m.sender_id not in [1317173146]:
+    if int(data["sizebytes"]) > 500000000 and m.sender_id not in ADMINS:
         return await hm.edit(
-            f"Sorry! File is too big. I can download only 500MB and this file is of {data['size']} ."
+            f"Sorry! File is too big. I can download only 500 MB and this file is of {data['size']} ."
         )
 
     start_time = time.time()
@@ -197,8 +227,8 @@ async def handle_message(m: Message):
             return
         bar_length = 20
         percent = current_downloaded / total_downloaded
-        arrow = "█" * int(percent * bar_length)
-        spaces = "░" * (bar_length - len(arrow))
+        arrow = "◉" * int(percent * bar_length)
+        spaces = "◯" * (bar_length - len(arrow))
 
         elapsed_time = time.time() - start_time
 
@@ -233,7 +263,7 @@ async def handle_message(m: Message):
             caption=f"""
 File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
-Direct Link: [Click Here](https://t.me/teraboxbro_bot?start={uuid})
+Direct Link: [Click Here](https://t.me/TM_TeraboxBypaasBot?start={uuid})
 
 @TechyMaskBots
 """,
@@ -257,7 +287,7 @@ Direct Link: [Click Here](https://t.me/teraboxbro_bot?start={uuid})
             caption=f"""
 File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
-Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
+Direct Link: [Click Here](https://t.me/TM_TeraboxBypaasBot?start={uuid})
 
 @TechyMaskBots
 """,
@@ -306,7 +336,7 @@ Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
         db.set(
             f"check_{m.sender_id}",
             int(count) + 1 if count else 1,
-            ex=7200,
+            ex=1800,
         )
 
 
