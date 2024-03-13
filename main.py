@@ -44,11 +44,11 @@ async def start(m: UpdateNewMessage):
 𝐏𝐋𝐀𝐍'𝐒 : /plans"""
 
     # Check if the user is a member of both channels
-    channel1 = "@TechyMaskBots"
+    channel1 = "@TADxBotz"
     channel2 = "@Amanbotz"  # Replace with the actual username of your second channel
 
     if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
-        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TechyMaskBots 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TADxBotz 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     await m.reply(reply_text, link_preview=False, parse_mode="markdown")
 
@@ -58,7 +58,7 @@ async def start(m: UpdateNewMessage):
     fileid = db.get(str(text))
 
     # Define the channels
-    channel1 = "@TechyMaskBots"
+    channel1 = "@TADxBotz"
     channel2 = "@Amanbotz"
 
     # Check if the user is a member of both channels
@@ -66,7 +66,7 @@ async def start(m: UpdateNewMessage):
     check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
 
     if not check_channel1 or not check_channel2:
-        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TechyMaskBots 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TADxBotz 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     await bot(
         ForwardMessagesRequest(
@@ -138,7 +138,7 @@ async def get_message(m: Message):
 
 async def handle_message(m: Message):
     # Define the channels
-    channel1 = "@TechyMaskBots"
+    channel1 = "@TADxBotz"
     channel2 = "@Amanbotz" # Replace with your second channel
 
     # Check if the user is a member of both channels
@@ -227,8 +227,8 @@ async def handle_message(m: Message):
             return
         bar_length = 20
         percent = current_downloaded / total_downloaded
-        arrow = "◉" * int(percent * bar_length)
-        spaces = "◯" * (bar_length - len(arrow))
+        arrow = "●" * int(percent * bar_length)
+        spaces = "○" * (bar_length - len(arrow))
 
         elapsed_time = time.time() - start_time
 
@@ -263,9 +263,9 @@ async def handle_message(m: Message):
             caption=f"""
 File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
-Direct Link: [Click Here](https://t.me/TM_TeraboxBypaasBot?start={uuid})
+Direct Link: [Click Here](https://t.me/TAD_TeraboxBypaasBot?start={uuid})
 
-@TechyMaskBots
+@TADxBotz
 """,
             supports_streaming=True,
             spoiler=True,
@@ -287,9 +287,9 @@ Direct Link: [Click Here](https://t.me/TM_TeraboxBypaasBot?start={uuid})
             caption=f"""
 File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
-Direct Link: [Click Here](https://t.me/TM_TeraboxBypaasBot?start={uuid})
+Direct Link: [Click Here](https://t.me/TAD_TeraboxBypaasBot?start={uuid})
 
-@TechyMaskBots
+@TADxBotz
 """,
             progress_callback=progress_bar,
             thumb=thumbnail if thumbnail else None,
