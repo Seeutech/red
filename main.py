@@ -37,8 +37,12 @@ db = redis.Redis(
 
 @bot.on(events.NewMessage(pattern="/start$", incoming=True, outgoing=False))
 async def start(m: UpdateNewMessage):
-    reply_text = f"""
- 𝐇𝐞𝐥𝐥𝐨! 𝐈 𝐚𝐦 𝐓𝐞𝐫𝐚𝐛𝐨𝐱 𝐕𝐢𝐝𝐞𝐨 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭.
+    # Add the URL of the image you want to include
+    image_url = "https://i.ibb.co/kQJsrVk/white.png"
+    
+    # Generate the Markdown-formatted text for the message
+    reply_text = """
+𝐇𝐞𝐥𝐥𝐨! 𝐈 𝐚𝐦 𝐓𝐞𝐫𝐚𝐛𝐨𝐱 𝐕𝐢𝐝𝐞𝐨 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭.
 𝐒𝐞𝐧𝐝 𝐦𝐞 𝐭𝐞𝐫𝐚𝐛𝐨𝐱 𝐯𝐢𝐝𝐞𝐨 𝐥𝐢𝐧𝐤 & 𝐈 𝐰𝐢𝐥𝐥 𝐬𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨.
 
 𝐏𝐋𝐀𝐍'𝐒 : /plans"""
@@ -50,7 +54,9 @@ async def start(m: UpdateNewMessage):
     if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
         return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TADxBotz 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
-    await m.reply(reply_text, link_preview=False, parse_mode="markdown")
+    # Send the message with the included image
+    await m.reply(reply_text, file=image_url, link_preview=False, parse_mode="markdown")
+
 
 @bot.on(events.NewMessage(pattern="/start (.*)", incoming=True, outgoing=False))
 async def start(m: UpdateNewMessage):
