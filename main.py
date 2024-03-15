@@ -64,8 +64,8 @@ async def start(m: UpdateNewMessage):
     fileid = db.get(str(text))
 
     # Define the channels
-    channel1 = "@TADxBotz"
-    channel2 = "@Amanbotz"
+    channel1 = "@seeuadmin_bot"
+    channel2 = "@seeuadmin_bot"
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
