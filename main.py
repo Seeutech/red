@@ -52,7 +52,7 @@ async def start(m: UpdateNewMessage):
     channel2 = "@golivetvapp"  # Replace with the actual username of your second channel
 
     if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
-        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @seeuadmin_bot 𝐚𝐧𝐝 @seeuadmin_bot 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @golivetvapp 𝐚𝐧𝐝 @golivetvapp 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     # Send the message with the included image
     await m.reply(reply_text, file=image_url, link_preview=False, parse_mode="markdown")
@@ -72,7 +72,7 @@ async def start(m: UpdateNewMessage):
     check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
 
     if not check_channel1 or not check_channel2:
-        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @TADxBotz 𝐚𝐧𝐝 @Amanbotz 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @golivetvapp 𝐚𝐧𝐝 @golivetvapp 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     await bot(
         ForwardMessagesRequest(
