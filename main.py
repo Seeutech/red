@@ -48,8 +48,8 @@ async def start(m: UpdateNewMessage):
 𝐏𝐋𝐀𝐍'𝐒 : /plans"""
 
     # Check if the user is a member of both channels
-    channel1 = "@seeuadmin_bot"
-    channel2 = "@seeuadmin_bot"  # Replace with the actual username of your second channel
+    channel1 = "@golivetvapp"
+    channel2 = "@golivetvapp"  # Replace with the actual username of your second channel
 
     if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
         return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @seeuadmin_bot 𝐚𝐧𝐝 @seeuadmin_bot 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
@@ -64,8 +64,8 @@ async def start(m: UpdateNewMessage):
     fileid = db.get(str(text))
 
     # Define the channels
-    channel1 = "@seeuadmin_bot"
-    channel2 = "@seeuadmin_bot"
+    channel1 = "@golivetvapp"
+    channel2 = "@golivetvapp"
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
@@ -144,8 +144,8 @@ async def get_message(m: Message):
 
 async def handle_message(m: Message):
     # Define the channels
-    channel1 = "@seeuadmin_bot"
-    channel2 = "@seeuadmin_bot" # Replace with your second channel
+    channel1 = "@golivetvapp"
+    channel2 = "@golivetvapp" # Replace with your second channel
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
