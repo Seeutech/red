@@ -34,29 +34,22 @@ db = redis.Redis(
     decode_responses=True,
 )
 
-
 @bot.on(events.NewMessage(pattern="/start$", incoming=True, outgoing=False))
 async def start(m: UpdateNewMessage):
-    # Add the URL of the image you want to include
-    image_url = "https://i.ibb.co/kQJsrVk/white.png"
-    
-    # Generate the Markdown-formatted text for the message
-    reply_text = """
-𝐇𝐞𝐥𝐥𝐨! 𝐈 𝐚𝐦 𝐓𝐞𝐫𝐚𝐛𝐨𝐱 𝐕𝐢𝐝𝐞𝐨 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭.
+    reply_text = f"""
+ 𝐇𝐞𝐥𝐥𝐨! 𝐈 𝐚𝐦 𝐓𝐞𝐫𝐚𝐛𝐨𝐱 𝐕𝐢𝐝𝐞𝐨 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭.
 𝐒𝐞𝐧𝐝 𝐦𝐞 𝐭𝐞𝐫𝐚𝐛𝐨𝐱 𝐯𝐢𝐝𝐞𝐨 𝐥𝐢𝐧𝐤 & 𝐈 𝐰𝐢𝐥𝐥 𝐬𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨.
 
 𝐏𝐋𝐀𝐍'𝐒 : /plans"""
-
+      
     # Check if the user is a member of both channels
-    channel1 = "@golivetvapp"
-    channel2 = "@storetera"  # Replace with the actual username of your second channel
+    channel1 = "@mavimods2"
+    channel2 = "@mavibot_support"  # Replace with the actual username of your second channel
 
     if not await is_user_on_chat(bot, channel1, m.peer_id) or not await is_user_on_chat(bot, channel2, m.peer_id):
-        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @golivetvapp 𝐚𝐧𝐝 @storetera 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @mavimods2 𝐚𝐧𝐝 @mavibot_support 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
-    # Send the message with the included image
-    await m.reply(reply_text, file=image_url, link_preview=False, parse_mode="markdown")
-
+    await m.reply(reply_text, link_preview=False, parse_mode="markdown")
 
 @bot.on(events.NewMessage(pattern="/start (.*)", incoming=True, outgoing=False))
 async def start(m: UpdateNewMessage):
@@ -64,15 +57,15 @@ async def start(m: UpdateNewMessage):
     fileid = db.get(str(text))
 
     # Define the channels
-    channel1 = "@golivetvapp"
-    channel2 = "@storetera"
+    channel1 = "@mavimods2"
+    channel2 = "@mavibot_support"
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
     check_channel2 = await is_user_on_chat(bot, channel2, m.peer_id)
 
     if not check_channel1 or not check_channel2:
-        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @golivetvapp 𝐚𝐧𝐝 @storetera 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
+        return await m.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐣𝐨𝐢𝐧 @mavimods2 𝐚𝐧𝐝 @mavibot_support 𝐛𝐞𝐟𝐨𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐛𝐨𝐭.")
 
     await bot(
         ForwardMessagesRequest(
@@ -144,8 +137,8 @@ async def get_message(m: Message):
 
 async def handle_message(m: Message):
     # Define the channels
-    channel1 = "@golivetvapp"
-    channel2 = "@storetera" # Replace with your second channel
+    channel1 = "@mavimods2"
+    channel2 = "@mavibot_support" # Replace with your second channel
 
     # Check if the user is a member of both channels
     check_channel1 = await is_user_on_chat(bot, channel1, m.peer_id)
@@ -162,14 +155,11 @@ async def handle_message(m: Message):
     if not check_if:
         return await m.reply(f"Please join {channel1} then send me the link again.")
 
-    is_spam = db.get(m.sender_id)
-    if is_spam and m.sender_id not in ADMINS:
-        return await m.reply("You are spamming. Please wait 1 minute and try again.")
-
+    
     hm = await m.reply("Sending you the media, please wait...")
 
     count = db.get(f"check_{m.sender_id}")
-    if count and int(count) > 30:
+    if count and int(count) > 10:
         return await hm.edit("You are limited now. Please come back after 30 minuts or use another account.")
 
     shorturl = extract_code_from_url(url)
@@ -196,13 +186,6 @@ async def handle_message(m: Message):
             )
         )
 
-        db.set(m.sender_id, time.monotonic(), ex=60)
-        db.set(
-            f"check_{m.sender_id}",
-            int(count) + 1 if count else 1,
-            ex=1800,
-        )
-
         return
 
     data = get_data(url)
@@ -215,6 +198,12 @@ async def handle_message(m: Message):
         and not data["file_name"].endswith(".Mkv")
         and not data["file_name"].endswith(".webm")
         and not data["file_name"].endswith(".MP4")
+        and not data["file_name"].endswith(".png")
+        and not data["file_name"].endswith(".PNG")
+        and not data["file_name"].endswith(".JPG")
+        and not data["file_name"].endswith(".jpg")
+        and not data["file_name"].endswith(".jpeg")
+        and not data["file_name"].endswith(".JPEG")
     ):
         return await hm.edit(
             f"Sorry! File is not supported for now. I can download only .mp4, .mkv and .webm files."
@@ -233,8 +222,8 @@ async def handle_message(m: Message):
             return
         bar_length = 20
         percent = current_downloaded / total_downloaded
-        arrow = "●" * int(percent * bar_length)
-        spaces = "○" * (bar_length - len(arrow))
+        arrow = "◉" * int(percent * bar_length)
+        spaces = "◯" * (bar_length - len(arrow))
 
         elapsed_time = time.time() - start_time
 
@@ -269,11 +258,11 @@ async def handle_message(m: Message):
             caption=f"""
 File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
-Direct Link: [Click Here](https://t.me/TAD_TeraboxBypaasBot?start={uuid})
+Direct Link: [Click Here](https://t.me/MaviTerabox_bot?start={uuid})
 
-@TADxBotz
+@mavimods2
 """,
-            supports_streaming=True,
+            supports_streaming=False,
             spoiler=True,
         )
 
@@ -293,9 +282,9 @@ Direct Link: [Click Here](https://t.me/TAD_TeraboxBypaasBot?start={uuid})
             caption=f"""
 File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
-Direct Link: [Click Here](https://t.me/TAD_TeraboxBypaasBot?start={uuid})
+Direct Link: [Click Here](https://t.me/MaviTerabox_bot?start={uuid})
 
-@TADxBotz
+@mavimods2
 """,
             progress_callback=progress_bar,
             thumb=thumbnail if thumbnail else None,
@@ -337,12 +326,6 @@ Direct Link: [Click Here](https://t.me/TAD_TeraboxBypaasBot?start={uuid})
                 drop_media_captions=False,
                 with_my_score=True,
             )
-        )
-        db.set(m.sender_id, time.monotonic(), ex=60)
-        db.set(
-            f"check_{m.sender_id}",
-            int(count) + 1 if count else 1,
-            ex=1800,
         )
 
 
