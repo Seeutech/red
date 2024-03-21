@@ -12,6 +12,6 @@ async def plans_command(m):
     else:
         # Free user
         full_name = user.first_name + (f" {user.last_name}" if user.last_name else "")
-        reply_text = f"User ID: {user_id}\nName: {full_name}\n\n💠 Premium\n\n  ✓ Download Upto 2.0 GB\n  ✓ Task Limit: NO LIMIT\n  ✓ Time Gap: NO\n  ✓ No Anti-Spam Timer\n  ✓ Validity: 1 MONTH\n\n  Amount: 60 INR ₹\n\nBUY NOW FROM : @xTMAdminBot"
+        reply_text = f"User ID: {user_id}\nName: {full_name}\n\n💠 Premium\n\n  ✓ Download Upto 2.0 GB\n  ✓ Task Limit: NO LIMIT\n  ✓ Time Gap: NO\n  ✓ No Anti-Spam Timer\n  ✓ Validity: 1 MONTH\n\n  Amount: 60 INR ₹\n\nBUY NOW FROM : @seeuadmin_bot"
 
     await m.reply(reply_text, parse_mode="markdown")
