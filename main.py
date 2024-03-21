@@ -156,7 +156,7 @@ async def handle_message(m: Message):
         return await m.reply(f"Please join {channel1} then send me the link again.")
 
     
-    hm = await m.reply("Sending you the media, please wait...")
+    hm = await m.reply("Link Processing,please wait...")
 
     count = db.get(f"check_{m.sender_id}")
     if count and int(count) > 10:
