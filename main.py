@@ -260,7 +260,7 @@ File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
 Direct Link: [Click Here](https://t.me/tera_seeubot?start={uuid})
 
-@mavimods2
+@terao2
 """,
             supports_streaming=False,
             spoiler=True,
@@ -284,7 +284,7 @@ File Name: `{data['file_name']}`
 Size: **{data["size"]}** 
 Direct Link: [Click Here](https://t.me/tera_seeubot?start={uuid})
 
-@mavimods2
+@terao2
 """,
             progress_callback=progress_bar,
             thumb=thumbnail if thumbnail else None,
